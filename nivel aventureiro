@@ -58,3 +58,18 @@ void simularAtaque(Territorio *atacante, Territorio *defensor) {
            defensor->nome, defensor->tropas);
 }
 
+
+// ---------- FUNÇÃO: Continuar ou sair do jogo -------------
+int desejaContinuar() {
+    char opc;
+
+    printf("\nDigite 'q' para sair ou qualquer outra tecla para continuar: ");
+    scanf(" %c", &opc);
+
+    if (opc == 'q' || opc == 'Q') {
+        return 0; // sair
+    }
+
+    return 1; // continuar
+}
+
