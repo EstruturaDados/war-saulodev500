@@ -1,3 +1,60 @@
-int main{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
+    // Struct do território
+typedef struct {
+    char nome[30];
+    char corExercito[20];
+    int tropas;
+} Territorio;
+
+// ------------------ FUNÇÃO: Exibir o mapa ------------------
+void exibirMapa(Territorio *t, int qtd) {
+    printf("\n===== MAPA DOS TERRITÓRIOS =====\n");
+    for (int i = 0; i < qtd; i++) {
+        printf("\n[%d] %s\n", i, t[i].nome);
+        printf("Cor do Exército: %s\n", t[i].corExercito);
+        printf("Tropas: %d\n", t[i].tropas);
+
+
+// --------- FUNÇÃO: Ataque entre dois territórios -----------
+void simularAtaque(Territorio *atacante, Territorio *defensor) {
+    // Cada lado gera um número aleatório para representar força do ataque
+    int forcaAtacante = rand() % 6 + 1; // de 1 a 6
+    int forcaDefensor = rand() % 6 + 1;
+
+    printf("\n--- ATAQUE ---\n");
+    printf("%s (tropas: %d) ATACA %s (tropas: %d)\n",
+           atacante->nome, atacante->tropas,
+           defensor->nome, defensor->tropas);
+
+    printf("Rolagem atacante: %d\n", forcaAtacante);
+    printf("Rolagem defensor: %d\n", forcaDefensor);
+
+    // Resultado
+    if (forcaAtacante > forcaDefensor) {
+        atacante->tropas -= 1;
+        defensor->tropas -= 2;
+        if (defensor->tropas < 0) defensor->tropas = 0;
+
+        printf("Resultado: O defensor perdeu 2 tropas, o atacante perdeu 1.\n");
+    } else if (forcaAtacante < forcaDefensor) {
+        atacante->tropas -= 2;
+        defensor->tropas -= 1;
+        if (atacante->tropas < 0) atacante->tropas = 0;
+
+        printf("Resultado: O atacante perdeu 2 tropas, o defensor perdeu 1.\n");
+    } else {
+        atacante->tropas -= 1;
+        defensor->tropas -= 1;
+        printf("Resultado: Empate! Ambos perderam 1 tropa.\n");
+    }
+
+    printf("Tropas restantes:\n");
+    printf("%s: %d | %s: %d\n",
+           atacante->nome, atacante->tropas,
+           defensor->nome, defensor->tropas);
 }
+
