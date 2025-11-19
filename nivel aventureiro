@@ -73,3 +73,60 @@ int desejaContinuar() {
     return 1; // continuar
 }
 
+
+// ================= PROGRAMA PRINCIPAL ======================
+int main() {
+    srand(time(NULL)); // inicializa aleatoriedade
+
+    int qtd;
+    printf("Quantos territórios deseja criar? ");
+    scanf("%d", &qtd);
+
+    Territorio *mapa = malloc(qtd * sizeof(Territorio));
+
+    if (!mapa) {
+        printf("Erro de alocação!\n");
+        return 1;
+    }
+
+    // Cadastro dos territórios
+    for (int i = 0; i < qtd; i++) {
+        printf("\n=== Território %d ===\n", i);
+
+        printf("Nome: ");
+        scanf("%s", mapa[i].nome);
+
+        printf("Cor do Exército: ");
+        scanf("%s", mapa[i].corExercito);
+
+        printf("Quantidade de tropas: ");
+        scanf("%d", &mapa[i].tropas);
+    }
+
+    // Loop principal do jogo
+    while (1) {
+        exibirMapa(mapa, qtd);
+
+        int a, d;
+        printf("\nEscolha quem ataca (ID): ");
+        scanf("%d", &a);
+
+        printf("Escolha quem defende (ID): ");
+        scanf("%d", &d);
+
+        if (a < 0 || a >= qtd || d < 0 || d >= qtd || a == d) {
+            printf("IDs inválidos!\n");
+            continue;
+        }
+
+        simularAtaque(&mapa[a], &mapa[d]);
+
+        if (!desejaContinuar()) {
+            printf("\nSaindo do jogo...\n");
+            break;
+        }
+    }
+
+    free(mapa);
+    return 0;
+}
